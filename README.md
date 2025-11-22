@@ -25,8 +25,8 @@ done > 통합.txt
 <pre>
 for %%f in (*.txt) do (
     type "%%f" >> book.txt
-    echo. >> book.txt REM newline1
-	echo. >> book.txt REM newline2
+    echo. >> book.txt
+	echo. >> book.txt
 )
 </pre>
 
