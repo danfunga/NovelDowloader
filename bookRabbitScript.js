@@ -19,7 +19,6 @@
     if (!currentURL.match(/^https:\/\/booktoki[0-9]+.com\/novel\/[0-9]+/)) {
         return;
     }
-
     function sleep(ms) {
         return new Promise(resolve => {
             setTimeout(() => resolve(), ms);
@@ -107,7 +106,7 @@
                 const src = aTag.href;
 
                 console.clear();
-                console.log(`(현재 ${startIndexNum + i} 번째 화 → ${startIndexNum + list.length - 1}화 까지)[${i + 1}/${list.length}] 다운로드 중 → ${fileName} `);
+                console.log(`(현재 ${startIndexNum + i} 번째 → ${startIndexNum + list.length - 1} 번째 까지)[${i + 1}/${list.length}] 다운로드 중 → ${fileName} `);
 
                 try {
                     await waitIframeLoad(iframe, src);
@@ -156,13 +155,13 @@
     }
     // ui 추가
     GM_registerMenuCommand('전체 다운로드', () => doDownload());
-    GM_registerMenuCommand('N번째 회차부터', () => {
-        const startPageInput = prompt('몇번째 회차부터 저장할까요?', 1);
+    GM_registerMenuCommand('N번 부터 끝가지', () => {
+        const startPageInput = prompt('몇번째 회차부터 다운로드 할까?', 1);
         doDownload(startPageInput);
     });
-    GM_registerMenuCommand('N번째 회차부터 N번째 까지', () => {
-        const startPageInput = prompt('몇번째 회차부터 저장할까요?', 1);
-        const endPageInput = prompt('몇번째 회차까지 저장할까요?', 2);
+    GM_registerMenuCommand('N번 부터 M번 까지', () => {
+        const startPageInput = prompt('몇번째 부터 다운로드 할까?', 1);
+        const endPageInput = prompt('몇번째 까지 다운로드 할까?', 2);
         doDownload(startPageInput, endPageInput);
     });
 })();
