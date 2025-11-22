@@ -102,6 +102,7 @@
                 startIndexNum = 1;
             }
             let currnetFileName;
+            let lastFileName="not started";
             // read download loop
             for (let i = 0; i < list.length; i++) {
                 const aTag = list[i].querySelector('a');
@@ -127,10 +128,13 @@
 
                     const fileContent = textNode.innerText;
                     zip.file(`${num} ${currnetFileName}.txt`, fileContent);                    
+                    
+                    // zip 에서 오류가 났겠느냐고
+                    lastFileName = currnetFileName;
                 } catch (itemErr) {
                     console.error("다운로드 중 오류 발생:", itemErr);
                     console.log("여기까지 ZIP 저장을 진행합니다.");
-                    rootFolder = `소설 ${firstName} - ${currnetFileName}`;
+                    rootFolder = `소설 ${firstName} - ${lastFileName}`;
 
                     break; // 즉시 종료 → 지금까지 저장된 zip으로 처리                    
                 }
