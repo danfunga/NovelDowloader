@@ -97,7 +97,10 @@
             iframe.height = 600;
             document.querySelector('.content').prepend(iframe);
 
-            const startIndexNum = parseInt(startIndex, 10);
+            let startIndexNum = parseInt(startIndex, 10);
+            if (isNaN(startIndexNum)) {
+                startIndexNum = 1;
+            }
             // read download loop
             for (let i = 0; i < list.length; i++) {
                 const aTag = list[i].querySelector('a');
