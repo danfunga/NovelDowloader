@@ -89,7 +89,7 @@
             // 제목 가져오기 - 처음 제목과 마지막 제목을 제목에 넣는다.            
             const firstName = list[0].querySelector('a').innerHTML.replace(/<span[\s\S]*?\/span>/g, '').trim();
             const lastName = list.at(-1).querySelector('a').innerHTML.replace(/<span[\s\S]*?\/span>/g, '').trim();
-            const rootFolder = `소설 ${firstName} - ${lastName}`;
+            let rootFolder = `소설 ${firstName} - ${lastName}`;
 
             // iframe생성
             const iframe = document.createElement('iframe');
@@ -101,15 +101,16 @@
             if (isNaN(startIndexNum)) {
                 startIndexNum = 1;
             }
+            let currnetFileName;
             // read download loop
             for (let i = 0; i < list.length; i++) {
                 const aTag = list[i].querySelector('a');
-                const fileName = aTag.innerHTML.replace(/<span[\s\S]*?\/span>/g, '').trim();
+                const currnetFileName = aTag.innerHTML.replace(/<span[\s\S]*?\/span>/g, '').trim();
                 const num = list[i].querySelector('.wr-num').innerText.padStart(4, '0');
                 const src = aTag.href;
 
                 console.clear();
-                console.log(`(현재 ${startIndexNum + i} 번째 → ${startIndexNum + list.length - 1} 번째 까지)[${i + 1}/${list.length}] 다운로드 중 → ${fileName} `);
+                console.log(`(현재 ${startIndexNum + i} 번째 → ${startIndexNum + list.length - 1} 번째 까지)[${i + 1}/${list.length}] 다운로드 중 → ${currnetFileName} `);
 
                 try {
                     await waitIframeLoad(iframe, src);
@@ -125,13 +126,11 @@
                     }
 
                     const fileContent = textNode.innerText;
-                    zip.file(`${num} ${fileName}.txt`, fileContent);
-
-                    // 이미지가 있다면 폴더를 만들어 그 안에 데이터를 넣는다. - 아직 이미지인 소설을 못찾음
-                    // zip.folder(`${num} ${fileName}`).file(`${num} ${fileName}.txt`, fileContent);
+                    zip.file(`${num} ${currnetFileName}.txt`, fileContent);                    
                 } catch (itemErr) {
                     console.error("다운로드 중 오류 발생:", itemErr);
                     console.log("여기까지 ZIP 저장을 진행합니다.");
+                    rootFolder = `소설 ${firstName} - ${currnetFileName}`;
 
                     break; // 즉시 종료 → 지금까지 저장된 zip으로 처리                    
                 }
